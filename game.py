@@ -7,9 +7,9 @@ import json
 from datetime import datetime, timedelta
 from operator import itemgetter
 from word_list import WORDS
-from config import API_ID, API_HASH, BOT_TOKEN2
+from config import API_ID, API_HASH, BOT_TOKEN2, BOT_TOKEN
 
-app = Client("hangman_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN2)
+app = Client("hangman_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 games = {}
 player_stats = {}
