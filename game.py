@@ -8,11 +8,11 @@ import json
 from datetime import datetime, timedelta, date
 from operator import itemgetter
 from word_list import WORDS
-from config import API_ID, API_HASH, BOT_TOKEN2, BOT_TOKEN
+from config import API_ID, API_HASH, BOT_TOKEN_TEST, BOT_TOKEN_HANGMAN
 
 
 
-app = Client("hangman_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+app = Client("hangman_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN_HANGMAN)
 
 games = {}
 player_stats = {}
@@ -374,12 +374,16 @@ def check_achievements(user_id):
 async def start_command(client, message):
     welcome_text = (
         "🎮 **Welcome to Hangman!** 🎉\n\n"
-        "Guess the word before the hangman gets you! 🤔\n"
-        "Use /play to start a new game. 🕹️\n\n"
-        "Check your /stats and see the /ranking to compare with others. 🏆\n\n"
+        "Guess the word before the man gets hanged! ☠️\n\n"
+        "**Available Commands:**\n"
+        "🔹 /play - Start a new game. 🕹️\n"
+        "🔹 /stats - View your statistics. 📊\n"
+        "🔹 /ranking - Check the leaderboard. 🏆\n"
+        "🔹 /config - Customize your game experience. ⚙️\n\n"
         "Good luck and have fun! 🍀"
     )
     await message.reply_text(welcome_text)
+
 
 @app.on_message(filters.command("stats"))
 async def stats_command(client, message):
