@@ -227,7 +227,7 @@ def get_player_stats(user_id):
 def get_random_word(category, difficulty):
     return random.choice(WORDS[category][difficulty])
 
-def calculate_attempts(word_length, base_attempts=5, length_factor=3):
+def calculate_attempts(word_length, base_attempts=5, length_factor=2):
     return base_attempts + word_length // length_factor
 
 def create_hangman_display(word, guessed_letters):
