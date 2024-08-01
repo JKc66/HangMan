@@ -5,7 +5,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import MessageNotModified, FloodWait
 import asyncio
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from operator import itemgetter
 from word_list import WORDS
 from config import API_ID, API_HASH, BOT_TOKEN2, BOT_TOKEN
@@ -51,7 +51,8 @@ KEYBOARD_EMOJI_SETS = [
 LIVES_EMOJI_SETS = [
     ("💚", "❤️", "💔"),
     ("🧔‍♂️", "💀", "⚰️"),
-    ("🌱", "🍃", "🍂")
+    ("🌱", "🍃", "🍂"),
+    ("🍜", "🥢", "🥣")
 ]
 
 
@@ -70,7 +71,49 @@ emoji_options = {
     "difficulty": [trio for trio in DIFFICULTY_EMOJI_SETS]
 }
 
-# Save and load player stats
+
+
+def load_daily_challenges():
+    try:
+        with open('daily_challenges.json', 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+def save_daily_challenges(daily_challenges):
+    with open('daily_challenges.json', 'w') as f:
+        json.dump(daily_challenges, f, indent=4)
+
+def can_play_daily_challenge(user_id):
+    daily_challenges = load_daily_challenges()
+    today = date.today().isoformat()
+    
+    if user_id not in daily_challenges or daily_challenges[user_id]['last_played'] != today:
+        daily_challenges[user_id] = {'last_played': today, 'score': 0}
+        save_daily_challenges(daily_challenges)
+        return True
+    return False
+
+def update_daily_challenge_score(user_id, score):
+    daily_challenges = load_daily_challenges()
+    today = date.today().isoformat()
+    
+    if user_id in daily_challenges and daily_challenges[user_id]['last_played'] == today:
+        if score > daily_challenges[user_id]['score']:
+            daily_challenges[user_id]['score'] = score
+            save_daily_challenges(daily_challenges)
+        return daily_challenges[user_id]['score']
+    return score
+
+def get_daily_challenge_leaderboard():
+    daily_challenges = load_daily_challenges()
+    today = date.today().isoformat()
+    
+    leaderboard = [(user_id, data['score']) for user_id, data in daily_challenges.items() if data['last_played'] == today]
+    return sorted(leaderboard, key=lambda x: x[1], reverse=True)[:10]
+
+
+
 def save_player_stats():
     with open('player_stats.json', 'w') as f:
         serializable_stats = {
@@ -398,6 +441,15 @@ async def play_command(client, message):
 @app.on_callback_query(filters.regex(r"^daily_challenge"))
 async def daily_challenge_callback(client, callback_query):
     user_id = str(callback_query.from_user.id)
+    original_user_id = callback_query.data.split("_")[-1]
+
+    if user_id != original_user_id:
+        await callback_query.answer("Oops! 🚫 This is not your game. Start your own with /play!", show_alert=True)
+        return
+
+    if not can_play_daily_challenge(user_id):
+        await callback_query.answer("You've already played today's challenge. Come back tomorrow!", show_alert=True)
+        return
 
     current_date = datetime.now().date()
     if "date" not in daily_challenges or daily_challenges["date"] != current_date:
@@ -409,6 +461,10 @@ async def daily_challenge_callback(client, callback_query):
 
     keyboard_letters = generate_keyboard(word, set())
     attempts = calculate_attempts(len(word))
+
+    if user_id not in player_stats:
+        player_stats[user_id] = initialize_player_stats(user_id, callback_query.from_user.first_name)
+        save_player_stats()
 
     games[user_id] = {
         "word": word,
@@ -534,8 +590,8 @@ async def category_callback(client, callback_query):
     user_id = str(callback_query.from_user.id)
     category, original_user_id = callback_query.data.split("_")[1:]
 
-    if not is_original_user(callback_query, original_user_id):
-        await callback_query.answer("This game is for another player. Use /play to start your own game.", show_alert=True)
+    if user_id != original_user_id:
+        await callback_query.answer("Oops! 🚫 This is not your game. Start your own with /play!", show_alert=True)
         return
 
     difficulty_emojis = user_configs.get(user_id, {}).get("difficulty", default_emoji_sets["difficulty"])
@@ -581,7 +637,7 @@ async def difficulty_callback(client, callback_query):
         reply_markup=create_keyboard_markup(keyboard_letters, set(), word, user_id)
     )
     games[user_id]["message_id"] = sent_message.id
-
+    
 @app.on_callback_query(filters.regex(r"^stats_"))
 async def stats_section_callback(client, callback_query):
     global last_pressed_section
@@ -703,7 +759,7 @@ async def config_callback(client, callback_query):
     original_user_id = data_parts[2] if len(data_parts) > 2 else user_id
 
     if not is_original_user(callback_query, original_user_id):
-        await callback_query.answer("This configuration is for another user. Use /config to start your own.", show_alert=True)
+        await callback_query.answer("bad boy 🤡.", show_alert=True)
         return
 
     if config_type == "emoji":
@@ -749,7 +805,7 @@ async def config_callback(client, callback_query):
         }[config_type]
 
         await callback_query.message.edit_text(
-            f"🎨 **{title} Customization**\n\nCurrent selection: {' '.join(current_emojis)}\n\nTap an emoji to select it:",
+            f"🎨 **{title} Customization**\n\nTap an emoji to select it:",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
     elif config_type == "back":
@@ -768,7 +824,7 @@ async def confirm_reset_callback(client, callback_query):
     original_user_id = callback_query.data.split("_")[-1]
 
     if not is_original_user(callback_query, original_user_id):
-        await callback_query.answer("This configuration is for another user. Use /config to start your own.", show_alert=True)
+        await callback_query.answer("bad boy 🤡.", show_alert=True)
         return
 
     if user_id in user_configs:
@@ -786,7 +842,7 @@ async def set_emoji_callback(client, callback_query):
     user_id = data_parts[4]
 
     if not is_original_user(callback_query, user_id):
-        await callback_query.answer("This configuration is for another user. Use /config to start your own.", show_alert=True)
+        await callback_query.answer("bad boy 🤡.", show_alert=True)
         return
 
     if user_id not in user_configs:
@@ -819,10 +875,16 @@ async def set_emoji_callback(client, callback_query):
             ]
         keyboard.append(row)
 
-    keyboard.append([InlineKeyboardButton("« Back", callback_data=f"config_back_{user_id}")])
+    keyboard.append([InlineKeyboardButton("« Back", callback_data=f"config_emoji_{user_id}")])
+
+    title = {
+        "lives": "❤️ Lives Emojis",
+        "keyboard": "⌨️ Keyboard Emojis",
+        "difficulty": "🔥 Difficulty Emojis"
+    }[config_type]
 
     await callback_query.message.edit_text(
-        f"Select emojis for {config_type}. Current selection: {' '.join(current_emojis)}",
+        f"🎨 **{title} Customization**\n\nTap an emoji to select it:",
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
@@ -835,11 +897,7 @@ async def leaderboard_callback(client, callback_query):
 
     if leaderboard_type == "daily":
         title = "📅 **Daily Challenge Leaderboard**"
-        sorted_data = sorted(
-            [(uid, stats["total_score"]) for uid, stats in player_stats.items() if "total_score" in stats],
-            key=itemgetter(1),
-            reverse=True
-        )[:10]
+        sorted_data = get_daily_challenge_leaderboard()
         format_entry = lambda rank, name, value: f"{rank_emoji(rank)} **{name}**: {value} points"
     elif leaderboard_type == "wins":
         title = "🏆 **Most Wins Leaderboard**"
@@ -965,7 +1023,8 @@ async def end_game(client, message, user_id, won):
     new_achievements = check_achievements(user_id)
 
     if game.get("is_daily_challenge", False):
-        update_leaderboard(user_id, game["score"])
+        final_score = update_daily_challenge_score(user_id, game["score"])
+        game["score"] = final_score
 
     if won:
         end_message = (
@@ -1013,7 +1072,8 @@ async def end_game(client, message, user_id, won):
         )
 
     del games[user_id]
-
+    
+    
 @app.on_message(filters.command("Ranking"))
 async def leaderboard_command(client, message):
     leaderboard_type = "wins"
