@@ -128,6 +128,13 @@ def save_player_stats():
         }
         json.dump(serializable_stats, f, indent=4)
 
+def update_player_name(user_id, new_name):
+    if user_id in player_stats:
+        player_stats[user_id]["name"] = new_name
+        save_player_stats()
+        
+
+
 def load_player_stats():
     global player_stats
     try:
@@ -390,13 +397,18 @@ async def start_command(client, message):
 @app.on_message(filters.command("stats"))
 async def stats_command(client, message):
     user_id = str(message.from_user.id)
+    user_name = message.from_user.first_name
+    
+    if user_id in player_stats and player_stats[user_id]["name"] != user_name:
+        update_player_name(user_id, user_name)
+
     stats = player_stats.get(user_id, {
         "games_played": 0,
         "games_won": 0,
         "total_score": 0,
         "guessed_letters": 0,
         "solved_words": 0,
-        "name": message.from_user.first_name,
+        "name": user_name,
         "achievements": set()
     })
     games_played = stats["games_played"]
@@ -426,9 +438,9 @@ async def stats_command(client, message):
 async def play_command(client, message):
     user_id = str(message.from_user.id)
     user_name = message.from_user.first_name
-    if user_id not in player_stats:
-        player_stats[user_id] = initialize_player_stats(user_id, user_name)
-        save_player_stats()
+    
+    if user_id in player_stats and player_stats[user_id]["name"] != user_name:
+        update_player_name(user_id, user_name)
 
     difficulty_emojis = user_configs.get(user_id, {}).get("difficulty", default_emoji_sets["difficulty"])
 
@@ -902,6 +914,12 @@ async def set_emoji_callback(client, callback_query):
 async def leaderboard_callback(client, callback_query):
     global last_pressed_button
 
+    user_id = str(callback_query.from_user.id)
+    user_name = callback_query.from_user.first_name
+    
+    if user_id in player_stats and player_stats[user_id]["name"] != user_name:
+        update_player_name(user_id, user_name)
+
     leaderboard_type = callback_query.data.split("_")[1]
     last_pressed_button = leaderboard_type
 
@@ -930,12 +948,12 @@ async def leaderboard_callback(client, callback_query):
         return
 
     leaderboard_text = f"{title}\n\n"
-    for rank, (user_id, value) in enumerate(sorted_data, start=1):
-        user_name = player_stats[user_id].get("name", "Unknown Player")
-        leaderboard_text += format_entry(rank, user_name, value) + "\n"
+    for rank, (uid, value) in enumerate(sorted_data, start=1):
+        player_name = player_stats[uid].get("name", "Unknown Player")
+        leaderboard_text += format_entry(rank, player_name, value) + "\n"
 
         if rank <= 3:
-            extra_info = get_player_extra_info(user_id, leaderboard_type)
+            extra_info = get_player_extra_info(uid, leaderboard_type)
             leaderboard_text += f"  {extra_info}\n"
 
         leaderboard_text += "\n"
@@ -1084,8 +1102,14 @@ async def end_game(client, message, user_id, won):
     del games[user_id]
     
     
-@app.on_message(filters.command("Ranking"))
+@app.on_message(filters.command("ranking"))
 async def leaderboard_command(client, message):
+    user_id = str(message.from_user.id)
+    user_name = message.from_user.first_name
+    
+    if user_id in player_stats and player_stats[user_id]["name"] != user_name:
+        update_player_name(user_id, user_name)
+
     leaderboard_type = "wins"
     title = "🥇 **Most Wins Leaderboard**"
     sorted_data = sorted(
@@ -1096,12 +1120,12 @@ async def leaderboard_command(client, message):
     format_entry = lambda rank, name, value: f"{rank_emoji(rank)} **{name}**: {value} wins"
 
     leaderboard_text = f"{title}\n\n"
-    for rank, (user_id, value) in enumerate(sorted_data, start=1):
-        user_name = player_stats[user_id].get("name", "Unknown Player")
-        leaderboard_text += format_entry(rank, user_name, value) + "\n"
+    for rank, (uid, value) in enumerate(sorted_data, start=1):
+        player_name = player_stats[uid].get("name", "Unknown Player")
+        leaderboard_text += format_entry(rank, player_name, value) + "\n"
 
         if rank <= 3:
-            extra_info = get_player_extra_info(user_id, leaderboard_type)
+            extra_info = get_player_extra_info(uid, leaderboard_type)
             leaderboard_text += f"  {extra_info}\n"
 
         leaderboard_text += "\n"
