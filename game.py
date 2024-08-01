@@ -1,3 +1,4 @@
+
 import random
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -8,6 +9,8 @@ from datetime import datetime, timedelta
 from operator import itemgetter
 from word_list import WORDS
 from config import API_ID, API_HASH, BOT_TOKEN2, BOT_TOKEN
+
+
 
 app = Client("hangman_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
@@ -727,12 +730,12 @@ async def config_callback(client, callback_query):
         for option in options:
             if config_type == "keyboard":
                 row = [
-                    InlineKeyboardButton(f"{option[0]} {'✅' if option[0] == current_emojis[0] else ''}", callback_data=f"set_{config_type}_0_{option[0]}_{user_id}"),
-                    InlineKeyboardButton(f"{option[1]} {'✅' if option[1] == current_emojis[1] else ''}", callback_data=f"set_{config_type}_1_{option[1]}_{user_id}")
+                    InlineKeyboardButton(f"{option[0]} {'✓' if option[0] == current_emojis[0] else ''}", callback_data=f"set_{config_type}_0_{option[0]}_{user_id}"),
+                    InlineKeyboardButton(f"{option[1]} {'✓' if option[1] == current_emojis[1] else ''}", callback_data=f"set_{config_type}_1_{option[1]}_{user_id}")
                 ]
             else:
                 row = [
-                    InlineKeyboardButton(f"{emoji} {'✅' if emoji == current_emojis[i] else ''}", callback_data=f"set_{config_type}_{i}_{emoji}_{user_id}")
+                    InlineKeyboardButton(f"{emoji} {'✓' if emoji == current_emojis[i] else ''}", callback_data=f"set_{config_type}_{i}_{emoji}_{user_id}")
                     for i, emoji in enumerate(option)
                 ]
             keyboard.append(row)
