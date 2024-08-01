@@ -438,9 +438,13 @@ async def play_command(client, message):
         [InlineKeyboardButton("Fruits 🍎", callback_data=f"category_fruits_{user_id}")],
         [InlineKeyboardButton("Vegetables 🥕", callback_data=f"category_vegetables_{user_id}")],
         [InlineKeyboardButton("Colors 🎨", callback_data=f"category_colors_{user_id}")],
-        [InlineKeyboardButton("Sports ⚽️", callback_data=f"category_sports_{user_id}")]
+        [InlineKeyboardButton("Sports ⚽️", callback_data=f"category_sports_{user_id}")],
+        [InlineKeyboardButton("Occupations 🧑‍💼", callback_data=f"category_occupations_{user_id}")],
+        [InlineKeyboardButton("Actions 🏃", callback_data=f"category_actions_{user_id}")],
+        [InlineKeyboardButton("Adjectives ✨", callback_data=f"category_adjectives_{user_id}")]
     ])
-    await message.reply_text("Choose a category or try the daily challenge:", reply_markup=keyboard)
+    await message.reply_text("🎮 **Hangman Game!** 🎉\n\n"
+        "Select a category or try the daily challenge! 📚", reply_markup=keyboard)
 
 @app.on_callback_query(filters.regex(r"^daily_challenge"))
 async def daily_challenge_callback(client, callback_query):
