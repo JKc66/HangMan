@@ -10,7 +10,7 @@ from operator import itemgetter
 from word_list import WORDS
 from config import API_ID, API_HASH, BOT_TOKEN_TEST, BOT_TOKEN_HANGMAN
 
-
+# TODO handle user changing their first names  
 
 app = Client("hangman_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN_HANGMAN)
 
