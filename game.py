@@ -5,21 +5,22 @@ import random
 from datetime import date, datetime, timedelta
 from operator import itemgetter
 
-from pyrogram import Client, filters
+from pyrogram import Client, filters, idle
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+
 from config import API_HASH, API_ID, BOT_TOKEN_HANGMAN, BOT_TOKEN_TEST
 from word_list import WORDS
+  
 
-# TODO handle user changing their first names  
-
-app = Client("hangman_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN_HANGMAN)
+app = Client("hangman_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN_TEST)
 
 games = {}
 player_stats = {}
 daily_challenges = {}
 leaderboard = {}
+game_activity = {}
 
 last_pressed_button = None
 
@@ -184,6 +185,70 @@ def initialize_player_stats(user_id, user_name):
 
     return player_stats[user_id]
 
+async def check_inactive_games():
+    while True:
+        current_time = datetime.now()
+        inactive_users = []
+        for user_id, last_activity in list(game_activity.items()):
+            if (current_time - last_activity) > timedelta(seconds=15): 
+                inactive_users.append(user_id)
+        
+        for user_id in inactive_users:
+            if user_id in games:
+                game = games[user_id]
+                try:
+                    await app.delete_messages(
+                        chat_id=game["chat_id"],
+                        message_ids=game["message_ids"]
+                    )
+                    print(f"Deleted {len(game['message_ids'])} inactive game messages for user {user_id}")
+                except Exception as e:
+                    print(f"Error deleting messages for user {user_id}: {e}")
+                del games[user_id]
+            if user_id in game_activity:
+                del game_activity[user_id]
+        
+        await asyncio.sleep(10)
+ 
+
+def track_game_setup(user_id, stage, chat_id, message_id):
+    if user_id not in games:
+        games[user_id] = {
+            "message_ids": [],
+            "chat_id": chat_id
+        }
+    games[user_id].update({
+        "setup_stage": stage,
+        "chat_id": chat_id,
+    })
+    games[user_id]["message_ids"].append(message_id)
+    game_activity[user_id] = datetime.now()
+
+def create_new_game(user_id, word, category, difficulty, chat_id, message_id):
+    keyboard_letters = generate_keyboard(word, set())
+    attempts = calculate_attempts(len(word))
+    
+    if user_id not in games:
+        games[user_id] = {
+            "message_ids": [],
+            "chat_id": chat_id
+        }
+    
+    games[user_id].update({
+        "word": word,
+        "guessed_letters": set(),
+        "attempts": attempts,
+        "category": category,
+        "difficulty": difficulty,
+        "score": 0,
+        "keyboard_letters": keyboard_letters,
+        "user_name": player_stats[user_id]["name"] if user_id in player_stats else "Unknown Player",
+        "setup_stage": "game_started"
+    })
+    games[user_id]["message_ids"].append(message_id)
+    game_activity[user_id] = datetime.now()
+
+    
 def update_player_stats(user_id, user_name, won, score, guessed_letter_count=0, solved_word=False):
     initialize_player_stats(user_id, user_name)
 
@@ -457,8 +522,10 @@ async def play_command(client, message):
         [InlineKeyboardButton("Actions 🏃", callback_data=f"category_actions_{user_id}")],
         [InlineKeyboardButton("Adjectives ✨", callback_data=f"category_adjectives_{user_id}")]
     ])
-    await message.reply_text("🎮 **Hangman Game!** 🎉\n\n"
+    sent_message = await message.reply_text("🎮 **Hangman Game!** 🎉\n\n"
         "Select a category or try the daily challenge! 📚", reply_markup=keyboard)
+    
+    track_game_setup(user_id, "category_selection", message.chat.id, sent_message.id)
 
 @app.on_callback_query(filters.regex(r"^daily_challenge"))
 async def daily_challenge_callback(client, callback_query):
@@ -481,33 +548,36 @@ async def daily_challenge_callback(client, callback_query):
     category = daily_challenges["category"]
     difficulty = daily_challenges["difficulty"]
 
-    keyboard_letters = generate_keyboard(word, set())
-    attempts = calculate_attempts(len(word))
-
-    if user_id not in player_stats:
-        player_stats[user_id] = initialize_player_stats(user_id, callback_query.from_user.first_name)
-        save_player_stats()
-
-    games[user_id] = {
-        "word": word,
-        "guessed_letters": set(),
-        "attempts": attempts,
-        "message_id": None,
-        "category": category,
-        "difficulty": difficulty,
-        "score": 0,
-        "keyboard_letters": keyboard_letters,
-        "user_name": player_stats[user_id]["name"],
-        "is_daily_challenge": True
-    }
-
-    initial_message = format_message(word, set(), attempts, category, difficulty, 0, user_id)
-    initial_message = "🌟 Daily Challenge 🌟\n\n" + initial_message
     sent_message = await callback_query.message.edit_text(
-        initial_message,
-        reply_markup=create_keyboard_markup(keyboard_letters, set(), word, user_id)
+        "🎮 Setting up your daily challenge...",
     )
-    games[user_id]["message_id"] = sent_message.id
+
+    create_new_game(user_id, word, category, difficulty, callback_query.message.chat.id, sent_message.id)
+    
+    game = games[user_id]
+    game["is_daily_challenge"] = True
+
+    initial_message = format_message(word, set(), game["attempts"], category, difficulty, 0, user_id)
+    initial_message = "🌟 Daily Challenge 🌟\n\n" + initial_message
+    
+    try:
+        await client.edit_message_text(
+            chat_id=game["chat_id"],
+            message_id=game["message_ids"][-1], 
+            text=initial_message,
+            reply_markup=create_keyboard_markup(game["keyboard_letters"], set(), word, user_id)
+        )
+    except Exception as e:
+        print(f"Error in daily_challenge_callback: {e}")
+        if user_id in games:
+            del games[user_id]
+        if user_id in game_activity:
+            del game_activity[user_id]
+        await callback_query.answer("An error occurred. Please try again.", show_alert=True)
+        return
+
+    game_activity[user_id] = datetime.now()
+    await callback_query.answer("Daily challenge started!")
 
 @app.on_callback_query(filters.regex(r"^guess_"))
 async def guess_callback(client, callback_query):
@@ -524,6 +594,8 @@ async def guess_callback(client, callback_query):
 
     game = games[game_user_id]
     letter = callback_query.data.split("_")[1]
+
+    game_activity[game_user_id] = datetime.now()  
 
     if letter in game["guessed_letters"]:
         await callback_query.answer("You've already guessed this letter!", show_alert=True)
@@ -543,8 +615,8 @@ async def guess_callback(client, callback_query):
     else:
         try:
             await client.edit_message_text(
-                chat_id=callback_query.message.chat.id,
-                message_id=game["message_id"],
+                chat_id=game["chat_id"],
+                message_id=game["message_ids"][-1],  
                 text=format_message(game["word"], game["guessed_letters"], game["attempts"], game["category"], game["difficulty"], game["score"], game_user_id),
                 reply_markup=create_keyboard_markup(game["keyboard_letters"], game["guessed_letters"], game["word"], game_user_id)
             )
@@ -553,13 +625,14 @@ async def guess_callback(client, callback_query):
         except FloodWait as e:
             await asyncio.sleep(e.value)
             await client.edit_message_text(
-                chat_id=callback_query.message.chat.id,
-                message_id=game["message_id"],
+                chat_id=game["chat_id"],
+                message_id=game["message_ids"][-1], 
                 text=format_message(game["word"], game["guessed_letters"], game["attempts"], game["category"], game["difficulty"], game["score"], game_user_id),
                 reply_markup=create_keyboard_markup(game["keyboard_letters"], game["guessed_letters"], game["word"], game_user_id)
             )
 
     await callback_query.answer()
+
 
 @app.on_callback_query(filters.regex(r"^hint_"))
 async def hint_callback(client, callback_query):
@@ -571,17 +644,21 @@ async def hint_callback(client, callback_query):
         return
 
     if game_user_id not in games:
+        await callback_query.answer("🚫 No active game found. Please start a new game with /play.", show_alert=True)
         return
 
     game = games[game_user_id]
     unguessed_letters = set(game["word"]) - game["guessed_letters"]
     if not unguessed_letters:
+        await callback_query.answer("No more hints available!", show_alert=True)
         return
 
     hint = random.choice(list(unguessed_letters))
     game["guessed_letters"].add(hint)
     game["attempts"] -= 1
     game["score"] = calculate_score(game["word"], game["attempts"], game["difficulty"])
+
+    game_activity[game_user_id] = datetime.now()
 
     if set(game["word"]) <= game["guessed_letters"]:
         await end_game(client, callback_query.message, game_user_id, won=True)
@@ -592,7 +669,7 @@ async def hint_callback(client, callback_query):
         try:
             await client.edit_message_text(
                 chat_id=callback_query.message.chat.id,
-                message_id=game["message_id"],
+                message_id=game["message_ids"][-1], 
                 text=formatted_message,
                 reply_markup=create_keyboard_markup(game["keyboard_letters"], game["guessed_letters"], game["word"], game_user_id)
             )
@@ -602,10 +679,13 @@ async def hint_callback(client, callback_query):
             await asyncio.sleep(e.value)
             await client.edit_message_text(
                 chat_id=callback_query.message.chat.id,
-                message_id=game["message_id"],
+                message_id=game["message_ids"][-1], 
                 text=formatted_message,
                 reply_markup=create_keyboard_markup(game["keyboard_letters"], game["guessed_letters"], game["word"], game_user_id)
             )
+
+    await callback_query.answer(f"Hint: The word contains the letter '{hint}'")
+
 
 @app.on_callback_query(filters.regex(r"^category_"))
 async def category_callback(client, callback_query):
@@ -624,7 +704,10 @@ async def category_callback(client, callback_query):
         [InlineKeyboardButton(f"Medium {medium_emoji}", callback_data=f"difficulty_{category}_medium_{user_id}")],
         [InlineKeyboardButton(f"Hard {hard_emoji}", callback_data=f"difficulty_{category}_hard_{user_id}")]
     ])
-    await callback_query.message.edit_text(f"Choose difficulty for {category}:", reply_markup=keyboard)
+    edited_message = await callback_query.message.edit_text(f"Choose difficulty for {category}:", reply_markup=keyboard)
+    
+    track_game_setup(user_id, "difficulty_selection", edited_message.chat.id, edited_message.id)
+
 
 @app.on_callback_query(filters.regex(r"^difficulty_"))
 async def difficulty_callback(client, callback_query):
@@ -635,30 +718,25 @@ async def difficulty_callback(client, callback_query):
         await callback_query.answer("Oops! 🚫 This is not your game. Start your own with /play!", show_alert=True)
         return
 
-    user_name = player_stats[user_id]["name"]
     word = get_random_word(category, difficulty)
-    keyboard_letters = generate_keyboard(word, set())
-
-    attempts = calculate_attempts(len(word))
-
-    games[user_id] = {
-        "word": word,
-        "guessed_letters": set(),
-        "attempts": attempts,
-        "message_id": None,
-        "category": category,
-        "difficulty": difficulty,
-        "score": 0,
-        "keyboard_letters": keyboard_letters,
-        "user_name": user_name
-    }
-
-    initial_message = format_message(word, set(), attempts, category, difficulty, 0, user_id)
+    
     sent_message = await callback_query.message.edit_text(
-        initial_message,
-        reply_markup=create_keyboard_markup(keyboard_letters, set(), word, user_id)
+        "🎮 Setting up your game...",
     )
-    games[user_id]["message_id"] = sent_message.id
+    
+    create_new_game(user_id, word, category, difficulty, callback_query.message.chat.id, sent_message.id)
+    
+    game = games[user_id]
+    initial_message = format_message(word, set(), game["attempts"], category, difficulty, 0, user_id)
+    
+    game_message = await client.edit_message_text(
+        chat_id=game["chat_id"],
+        message_id=sent_message.id,
+        text=initial_message,
+        reply_markup=create_keyboard_markup(game["keyboard_letters"], set(), word, user_id)
+    )
+    
+    track_game_setup(user_id, "game_started", game_message.chat.id, game_message.id)
     
 @app.on_callback_query(filters.regex(r"^stats_"))
 async def stats_section_callback(client, callback_query):
@@ -1083,23 +1161,61 @@ async def end_game(client, message, user_id, won):
     if game.get("is_daily_challenge", False):
         end_message += f"\n\n📊 Check /ranking to see your ranking!"
 
+    play_again_keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton("🎮 Play Again", callback_data=f"play_again_{user_id}")]
+    ])
+
     try:
         await client.edit_message_text(
-            chat_id=message.chat.id,
-            message_id=game["message_id"],
+            chat_id=game["chat_id"],
+            message_id=game["message_ids"][-1],  
             text=end_message,
-            reply_markup=None
+            reply_markup=play_again_keyboard
         )
     except FloodWait as e:
         await asyncio.sleep(e.value)
         await client.edit_message_text(
-            chat_id=message.chat.id,
-            message_id=game["message_id"],
+            chat_id=game["chat_id"],
+            message_id=game["message_ids"][-1], 
             text=end_message,
-            reply_markup=None
+            reply_markup=play_again_keyboard
         )
 
     del games[user_id]
+    if user_id in game_activity:
+        del game_activity[user_id]
+
+
+@app.on_callback_query(filters.regex(r"^play_again_"))
+async def play_again_callback(client, callback_query):
+    user_id = str(callback_query.from_user.id)
+    original_user_id = callback_query.data.split("_")[-1]
+
+    if user_id != original_user_id:
+        await callback_query.answer("Oops! 🚫 This is not your game. Start your own with /play!", show_alert=True)
+        return
+
+    difficulty_emojis = user_configs.get(user_id, {}).get("difficulty", default_emoji_sets["difficulty"])
+
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton("Daily Challenge 📅", callback_data=f"daily_challenge_{user_id}")],
+        [InlineKeyboardButton("Animals 🐾", callback_data=f"category_animals_{user_id}")],
+        [InlineKeyboardButton("Countries 🌎", callback_data=f"category_countries_{user_id}")],
+        [InlineKeyboardButton("Foods 🍔", callback_data=f"category_foods_{user_id}")],
+        [InlineKeyboardButton("Fruits 🍎", callback_data=f"category_fruits_{user_id}")],
+        [InlineKeyboardButton("Vegetables 🥕", callback_data=f"category_vegetables_{user_id}")],
+        [InlineKeyboardButton("Colors 🎨", callback_data=f"category_colors_{user_id}")],
+        [InlineKeyboardButton("Sports ⚽️", callback_data=f"category_sports_{user_id}")],
+        [InlineKeyboardButton("Occupations 🧑‍💼", callback_data=f"category_occupations_{user_id}")],
+        [InlineKeyboardButton("Actions 🏃", callback_data=f"category_actions_{user_id}")],
+        [InlineKeyboardButton("Adjectives ✨", callback_data=f"category_adjectives_{user_id}")]
+    ])
+
+    await callback_query.message.edit_text(
+        "🎮 **Hangman Game!** 🎉\n\nSelect a category or try the daily challenge! 📚",
+        reply_markup=keyboard
+    )
+    await callback_query.answer()
     
     
 @app.on_message(filters.command("ranking"))
@@ -1147,5 +1263,16 @@ user_configs = load_user_configs()
 
 load_player_stats()
 
-print('Hangman bot started')
-app.run()
+
+async def on_startup():
+    print("Hangman bot has started!")
+    asyncio.create_task(check_inactive_games())
+
+async def main():
+    await app.start()
+    await on_startup()
+    await idle()
+
+if __name__ == "__main__":
+    print('Hangman bot is starting...')
+    app.run(main())
