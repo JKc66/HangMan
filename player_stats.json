@@ -9,8 +9,8 @@
         "streak": 2,
         "last_played": "2024-08-02",
         "achievements": [
-            "first_win",
-            "perfect_game"
+            "perfect_game",
+            "first_win"
         ],
         "scores": [
             56,
@@ -37,6 +37,41 @@
             8,
             5,
             0
+        ]
+    },
+    "1606377072": {
+        "games_played": 2,
+        "games_won": 2,
+        "total_score": 246,
+        "guessed_letters": 25,
+        "solved_words": 2,
+        "name": "Abdulrahman",
+        "streak": 1,
+        "last_played": "2024-08-02",
+        "achievements": [
+            "first_win"
+        ],
+        "scores": [
+            176,
+            70
+        ]
+    },
+    "757127742": {
+        "games_played": 2,
+        "games_won": 2,
+        "total_score": 42,
+        "guessed_letters": 8,
+        "solved_words": 2,
+        "name": "Mist",
+        "streak": 1,
+        "last_played": "2024-08-02",
+        "achievements": [
+            "perfect_game",
+            "first_win"
+        ],
+        "scores": [
+            24,
+            18
         ]
     }
 }
