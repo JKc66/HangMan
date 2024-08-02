@@ -1,0 +1,42 @@
+{
+    "920584661": {
+        "games_played": 16,
+        "games_won": 15,
+        "total_score": 378,
+        "guessed_letters": 89,
+        "solved_words": 15,
+        "name": "QuantumQuest",
+        "streak": 2,
+        "last_played": "2024-08-02",
+        "achievements": [
+            "first_win",
+            "perfect_game"
+        ],
+        "scores": [
+            56,
+            48,
+            45,
+            40,
+            32
+        ]
+    },
+    "5463998858": {
+        "games_played": 4,
+        "games_won": 3,
+        "total_score": 22,
+        "guessed_letters": 23,
+        "solved_words": 3,
+        "name": "Rashed",
+        "streak": 1,
+        "last_played": "2024-08-01",
+        "achievements": [
+            "first_win"
+        ],
+        "scores": [
+            9,
+            8,
+            5,
+            0
+        ]
+    }
+}
