@@ -190,7 +190,7 @@ async def check_inactive_games():
         current_time = datetime.now()
         inactive_users = []
         for user_id, last_activity in list(game_activity.items()):
-            if (current_time - last_activity) > timedelta(seconds=15): 
+            if (current_time - last_activity) > timedelta(minutes=2): 
                 inactive_users.append(user_id)
         
         for user_id in inactive_users:
@@ -208,7 +208,7 @@ async def check_inactive_games():
             if user_id in game_activity:
                 del game_activity[user_id]
         
-        await asyncio.sleep(10)
+        await asyncio.sleep(60)
  
 
 def track_game_setup(user_id, stage, chat_id, message_id):
