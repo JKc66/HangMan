@@ -14,7 +14,7 @@ from config import API_HASH, API_ID, BOT_TOKEN_HANGMAN, BOT_TOKEN_TEST
 from word_list import WORDS
   
 
-app = Client("hangman_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN_TEST)
+app = Client("hangman_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN_HANGMAN)
 
 games = {}
 player_stats = {}
