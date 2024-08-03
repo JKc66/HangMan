@@ -190,7 +190,7 @@ async def check_inactive_games():
         current_time = datetime.now()
         inactive_users = []
         for user_id, last_activity in list(game_activity.items()):
-            if (current_time - last_activity) > timedelta(minutes=2): 
+            if (current_time - last_activity) > timedelta(minutes=3): 
                 inactive_users.append(user_id)
         
         for user_id in inactive_users:
