@@ -73,5 +73,22 @@
             24,
             18
         ]
+    },
+    "6715831051": {
+        "games_played": 2,
+        "games_won": 2,
+        "total_score": 46,
+        "guessed_letters": 16,
+        "solved_words": 2,
+        "name": "Neovim",
+        "streak": 1,
+        "last_played": "2024-08-03",
+        "achievements": [
+            "first_win"
+        ],
+        "scores": [
+            28,
+            18
+        ]
     }
 }
