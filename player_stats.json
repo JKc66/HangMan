@@ -1,23 +1,24 @@
 {
     "920584661": {
-        "games_played": 19,
-        "games_won": 18,
-        "total_score": 442,
-        "guessed_letters": 105,
-        "solved_words": 18,
+        "games_played": 25,
+        "games_won": 24,
+        "total_score": 653,
+        "guessed_letters": 144,
+        "solved_words": 24,
         "name": "QuantumQuest",
-        "streak": 2,
-        "last_played": "2024-08-02",
+        "streak": 3,
+        "last_played": "2024-08-03",
         "achievements": [
+            "words_20",
             "perfect_game",
             "first_win"
         ],
         "scores": [
+            72,
+            63,
             56,
             48,
-            45,
-            40,
-            32
+            45
         ]
     },
     "5463998858": {
@@ -57,21 +58,24 @@
         ]
     },
     "757127742": {
-        "games_played": 2,
-        "games_won": 2,
-        "total_score": 42,
-        "guessed_letters": 8,
-        "solved_words": 2,
+        "games_played": 16,
+        "games_won": 13,
+        "total_score": 431,
+        "guessed_letters": 158,
+        "solved_words": 13,
         "name": "Mist",
-        "streak": 1,
-        "last_played": "2024-08-02",
+        "streak": 3,
+        "last_played": "2024-08-04",
         "achievements": [
             "perfect_game",
             "first_win"
         ],
         "scores": [
+            160,
+            56,
+            36,
             24,
-            18
+            24
         ]
     },
     "6715831051": {
@@ -90,6 +94,43 @@
             28,
             18,
             10
+        ]
+    },
+    "534967496": {
+        "games_played": 1,
+        "games_won": 1,
+        "total_score": 15,
+        "guessed_letters": 3,
+        "solved_words": 1,
+        "name": "Unknown Player",
+        "streak": 1,
+        "last_played": "2024-08-03",
+        "achievements": [
+            "first_win"
+        ],
+        "scores": [
+            15
+        ]
+    },
+    "6444630004": {
+        "games_played": 17,
+        "games_won": 16,
+        "total_score": 310,
+        "guessed_letters": 105,
+        "solved_words": 16,
+        "name": "\u0632\u064f\u062d\u0644",
+        "streak": 1,
+        "last_played": "2024-08-03",
+        "achievements": [
+            "perfect_game",
+            "first_win"
+        ],
+        "scores": [
+            40,
+            30,
+            28,
+            25,
+            25
         ]
     }
 }
