@@ -1,16 +1,16 @@
 {
     "920584661": {
-        "games_played": 25,
-        "games_won": 24,
-        "total_score": 653,
-        "guessed_letters": 144,
-        "solved_words": 24,
+        "games_played": 32,
+        "games_won": 31,
+        "total_score": 815,
+        "guessed_letters": 182,
+        "solved_words": 31,
         "name": "QuantumQuest",
-        "streak": 3,
-        "last_played": "2024-08-03",
+        "streak": 1,
+        "last_played": "2024-08-06",
         "achievements": [
-            "words_20",
             "perfect_game",
+            "words_20",
             "first_win"
         ],
         "scores": [

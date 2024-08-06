@@ -1,6 +1,6 @@
-hangman_bot.session
-hangman_bot.session-journal
+HangMan/hangman_bot.session-wal
+HangMan/hangman_bot.session
+HangMan/hangman_bot.session-shm
 
-nohup.out
 **/__pycache__/
 nohup.out

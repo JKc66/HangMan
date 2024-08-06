@@ -5,9 +5,9 @@ import random
 from datetime import date, datetime, timedelta
 from operator import itemgetter
 
-from pyrogram import Client, filters, idle
-from pyrogram.errors import FloodWait, MessageNotModified
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from hydrogram import Client, filters, idle
+from hydrogram.errors import FloodWait, MessageNotModified
+from hydrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 from config import API_HASH, API_ID, BOT_TOKEN_HANGMAN, BOT_TOKEN_TEST
@@ -101,19 +101,45 @@ def update_daily_challenge_score(user_id, score):
     daily_challenges = load_daily_challenges()
     today = date.today().isoformat()
     
-    if user_id in daily_challenges and daily_challenges[user_id]['last_played'] == today:
-        if score > daily_challenges[user_id]['score']:
-            daily_challenges[user_id]['score'] = score
-            save_daily_challenges(daily_challenges)
-        return daily_challenges[user_id]['score']
-    return score
+    if user_id not in daily_challenges:
+        daily_challenges[user_id] = {
+            'last_played': today,
+            'score': score,
+            'total_score': score,
+            'streak': 1
+        }
+    else:
+        user_data = daily_challenges[user_id]
+        if 'total_score' not in user_data:
+            user_data['total_score'] = user_data['score']  # Initialize total_score with current score
+        if 'streak' not in user_data:
+            user_data['streak'] = 1  # Initialize streak if it doesn't exist
+        
+        if user_data['last_played'] == today:
+            if score > user_data['score']:
+                user_data['total_score'] += score - user_data['score']
+                user_data['score'] = score
+        else:
+            yesterday = (date.today() - timedelta(days=1)).isoformat()
+            if user_data['last_played'] == yesterday:
+                user_data['streak'] += 1
+            else:
+                user_data['streak'] = 1
+            user_data['last_played'] = today
+            user_data['score'] = score
+            user_data['total_score'] += score
+    
+    save_daily_challenges(daily_challenges)
+    return daily_challenges[user_id]['score'], daily_challenges[user_id]['streak']
 
 def get_daily_challenge_leaderboard():
     daily_challenges = load_daily_challenges()
     today = date.today().isoformat()
     
-    leaderboard = [(user_id, data['score']) for user_id, data in daily_challenges.items() if data['last_played'] == today]
-    return sorted(leaderboard, key=lambda x: x[1], reverse=True)[:10]
+    leaderboard = [(user_id, data['total_score'], data['streak']) 
+                   for user_id, data in daily_challenges.items() 
+                   if data['last_played'] == today]
+    return sorted(leaderboard, key=lambda x: (x[1], x[2]), reverse=True)[:10]
 
 
 
@@ -828,16 +854,16 @@ async def stats_section_callback(client, callback_query):
     await callback_query.answer()
 
 tips = [
-    "💡 Tip: Keep playing to improve your rank!",
-    "🏅 You're on fire! Keep it up to climb even higher!",
-    "🚀 Great job! Push further to reach the top!",
-    "⭐ Awesome effort! Continue to shine and rise!",
-    "📈 You're doing great! Keep playing to boost your rank!",
-    "🌟 Fantastic work! Keep going to see your name at the top!",
-    "🏆 Excellent performance! Stay persistent and you'll get to the top!",
-    "🎯 Impressive score! Keep aiming higher!",
-    "👏 Well done! Keep playing to dominate the leaderboard!",
-    "🎉 Great progress! Keep the momentum to improve your ranking!"
+    "💡 Play more, rank higher!",
+    "🏅 On fire! Keep climbing!",
+    "🚀 Great job! Aim for the top!",
+    "⭐ Shine on! Keep rising!",
+    "📈 Doing great! Boost that rank!",
+    "🌟 Fantastic! Top spot awaits!",
+    "🏆 Excellent! Persistence pays off!",
+    "🎯 Impressive! Aim even higher!",
+    "👏 Well done! Dominate the board!",
+    "🎉 Great progress! Keep the momentum!"
 ]
 
 @app.on_message(filters.command("config"))
@@ -994,17 +1020,30 @@ async def leaderboard_callback(client, callback_query):
 
     user_id = str(callback_query.from_user.id)
     user_name = callback_query.from_user.first_name
-    
+
     if user_id in player_stats and player_stats[user_id]["name"] != user_name:
         update_player_name(user_id, user_name)
 
     leaderboard_type = callback_query.data.split("_")[1]
     last_pressed_button = leaderboard_type
 
+    def format_name(name):
+        # Check if the name contains Arabic characters
+        if any('\u0600' <= char <= '\u06FF' for char in name):
+            # If it's Arabic, wrap it in RLO and PDF markers
+            return f"\u202E**{name}**\u202C"
+        # For non-Arabic names, use LRE and PDF markers
+        return f"\u202A**{name}**\u202C"
+
+    def format_entry(rank, name, value, unit):
+        formatted_name = format_name(name)
+        # Ensure the whole entry is wrapped in LTR override
+        return f"\u202A{rank_emoji(rank)} {formatted_name}: {value} {unit}\u202C"
+
     if leaderboard_type == "daily":
         title = "📅 **Daily Challenge Leaderboard**"
         sorted_data = get_daily_challenge_leaderboard()
-        format_entry = lambda rank, name, value: f"{rank_emoji(rank)} **{name}**: {value} points"
+        entry_formatter = lambda rank, name, value, streak: format_entry(rank, name, value, f"points (Streak: {streak})")
     elif leaderboard_type == "wins":
         title = "🏆 **Most Wins Leaderboard**"
         sorted_data = sorted(
@@ -1012,7 +1051,7 @@ async def leaderboard_callback(client, callback_query):
             key=itemgetter(1),
             reverse=True
         )[:10]
-        format_entry = lambda rank, name, value: f"{rank_emoji(rank)} **{name}**: {value} wins"
+        entry_formatter = lambda rank, name, value: format_entry(rank, name, value, "wins")
     elif leaderboard_type == "scores":
         title = "🔥 **Highest Scores Leaderboard**"
         sorted_data = sorted(
@@ -1020,21 +1059,24 @@ async def leaderboard_callback(client, callback_query):
             key=itemgetter(1),
             reverse=True
         )[:10]
-        format_entry = lambda rank, name, value: f"{rank_emoji(rank)} **{name}**: {value} points"
+        entry_formatter = lambda rank, name, value: format_entry(rank, name, value, "points")
     else:
         await callback_query.answer("Invalid leaderboard type", show_alert=True)
         return
 
     leaderboard_text = f"{title}\n\n"
-    for rank, (uid, value) in enumerate(sorted_data, start=1):
-        player_name = player_stats[uid].get("name", "Unknown Player")
-        leaderboard_text += format_entry(rank, player_name, value) + "\n"
+    for rank, entry in enumerate(sorted_data, start=1):
+        if leaderboard_type == "daily":
+            uid, value, streak = entry
+            player_name = player_stats[uid].get("name", "Unknown Player")
+            entry_text = entry_formatter(rank, player_name, value, streak)
+        else:
+            uid, value = entry
+            player_name = player_stats[uid].get("name", "Unknown Player")
+            entry_text = entry_formatter(rank, player_name, value)
 
-        if rank <= 3:
-            extra_info = get_player_extra_info(uid, leaderboard_type)
-            leaderboard_text += f"  {extra_info}\n"
-
-        leaderboard_text += "\n"
+        extra_info = get_player_extra_info(uid, leaderboard_type)
+        leaderboard_text += f"<blockquote>{entry_text}\n{extra_info}</blockquote>\n\n"
 
     if not sorted_data:
         leaderboard_text += "No data available yet. Start playing to climb the leaderboard!\n"
@@ -1065,6 +1107,7 @@ async def leaderboard_callback(client, callback_query):
 
     await callback_query.answer()
 
+
 def rank_emoji(rank):
     if rank == 1:
         return "🥇"
@@ -1077,13 +1120,25 @@ def rank_emoji(rank):
 
 def get_player_extra_info(user_id, leaderboard_type):
     stats = player_stats[user_id]
-    if leaderboard_type == "daily":
-        return f"📊 Win Rate: {(stats['games_won'] / stats['games_played'] * 100):.1f}% | 🔥 Streak: {stats['streak']}"
-    elif leaderboard_type == "wins":
-        return f"🎮 Games Played: {stats['games_played']} | 📊 Win Rate: {(stats['games_won'] / stats['games_played'] * 100):.1f}%"
-    elif leaderboard_type == "scores":
-        return f"🚀 Total Score: {stats['total_score']} | 📊 Win Rate: {(stats['games_won'] / stats['games_played'] * 100):.1f}%"
+    games_played = stats['games_played']
+    win_rate = (stats['games_won'] / games_played * 100) if games_played > 0 else 0
 
+    if leaderboard_type == "daily":
+        return (
+            f"📊 Win Rate: {win_rate:.1f}%\n"
+            f"🔥 Streak: {stats['streak']} days"
+        )
+    elif leaderboard_type == "wins":
+        return (
+            f"🎮 Games: {games_played}\n"
+            f"📊 Win Rate: {win_rate:.1f}%"
+        )
+    elif leaderboard_type == "scores":
+        return (
+            f"🚀 Total: {stats['total_score']}\n"
+            f"📊 Win Rate: {win_rate:.1f}%"
+        )
+    
 hangman_won_graphic = (
     "```\n"
     "   +---+\n"
@@ -1127,6 +1182,15 @@ async def end_game(client, message, user_id, won):
 
     update_streak(user_id)
     new_achievements = check_achievements(user_id)
+
+    if game.get("is_daily_challenge", False):
+        try:
+            final_score, daily_streak = update_daily_challenge_score(user_id, game["score"])
+            game["score"] = final_score
+            game["daily_streak"] = daily_streak
+        except Exception as e:
+            print(f"Error updating daily challenge score: {e}")
+            game["daily_streak"] = 1 
 
     if game.get("is_daily_challenge", False):
         final_score = update_daily_challenge_score(user_id, game["score"])

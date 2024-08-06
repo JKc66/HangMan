@@ -1,0 +1,85 @@
+Hangman bot is starting...
+Hangman bot has started!
+'total_score'
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 1030, in leaderboard_callback
+    sorted_data = get_daily_challenge_leaderboard()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/HangMan/Hangman.py", line 137, in get_daily_challenge_leaderboard
+    leaderboard = [(user_id, data['total_score'], data['streak'])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/HangMan/Hangman.py", line 137, in <listcomp>
+    leaderboard = [(user_id, data['total_score'], data['streak'])
+                            ~~~~^^^^^^^^^^^^^^^
+KeyError: 'total_score'
+'total_score'
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 1030, in leaderboard_callback
+    sorted_data = get_daily_challenge_leaderboard()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/HangMan/Hangman.py", line 137, in get_daily_challenge_leaderboard
+    leaderboard = [(user_id, data['total_score'], data['streak'])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/HangMan/Hangman.py", line 137, in <listcomp>
+    leaderboard = [(user_id, data['total_score'], data['streak'])
+                            ~~~~^^^^^^^^^^^^^^^
+KeyError: 'total_score'
+Hangman bot is starting...
+Hangman bot has started!
+'streak'
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 688, in hint_callback
+    await end_game(client, callback_query.message, game_user_id, won=True)
+  File "/home/ubuntu/HangMan/Hangman.py", line 1184, in end_game
+    final_score = update_daily_challenge_score(user_id, game["score"])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/HangMan/Hangman.py", line 131, in update_daily_challenge_score
+    return daily_challenges[user_id]['score'], daily_challenges[user_id]['streak']
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'streak'
+Hangman bot is starting...
+Hangman bot has started!
+too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 1055, in leaderboard_callback
+    for rank, (uid, value) in enumerate(sorted_data, start=1):
+              ^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 1055, in leaderboard_callback
+    for rank, (uid, value) in enumerate(sorted_data, start=1):
+              ^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Hangman bot is starting...
+Hangman bot has started!
+Hangman bot is starting...
+Hangman bot has started!
+Hangman bot is starting...
+Hangman bot has started!
+Hangman bot is starting...
+Hangman bot has started!
+Hangman bot is starting...
+Hangman bot has started!
+Exception ignored in: <module 'threading' from '/home/ubuntu/miniforge3/envs/bots/lib/python3.11/threading.py'>
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/threading.py", line 1590, in _shutdown
+    lock.acquire()
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/utilities/idle.py", line 73, in signal_handler
+    asyncio.get_event_loop().run_in_executor(None, task.cancel)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/asyncio/base_events.py", line 830, in run_in_executor
+    executor.submit(func, *args), loop=self)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/concurrent/futures/thread.py", line 167, in submit
+    raise RuntimeError('cannot schedule new futures after shutdown')
+RuntimeError: cannot schedule new futures after shutdown
