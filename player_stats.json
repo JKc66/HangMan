@@ -1,17 +1,17 @@
 {
     "920584661": {
-        "games_played": 32,
-        "games_won": 31,
-        "total_score": 815,
-        "guessed_letters": 182,
-        "solved_words": 31,
+        "games_played": 34,
+        "games_won": 33,
+        "total_score": 862,
+        "guessed_letters": 196,
+        "solved_words": 33,
         "name": "QuantumQuest",
-        "streak": 1,
-        "last_played": "2024-08-06",
+        "streak": 3,
+        "last_played": "2024-08-08",
         "achievements": [
             "perfect_game",
-            "words_20",
-            "first_win"
+            "first_win",
+            "words_20"
         ],
         "scores": [
             72,
@@ -97,19 +97,20 @@
         ]
     },
     "534967496": {
-        "games_played": 1,
+        "games_played": 2,
         "games_won": 1,
         "total_score": 15,
-        "guessed_letters": 3,
+        "guessed_letters": 14,
         "solved_words": 1,
-        "name": "Unknown Player",
+        "name": "Eng.Osama",
         "streak": 1,
-        "last_played": "2024-08-03",
+        "last_played": "2024-08-07",
         "achievements": [
             "first_win"
         ],
         "scores": [
-            15
+            15,
+            0
         ]
     },
     "6444630004": {
@@ -131,6 +132,98 @@
             28,
             25,
             25
+        ]
+    },
+    "803513850": {
+        "games_played": 2,
+        "games_won": 2,
+        "total_score": 52,
+        "guessed_letters": 10,
+        "solved_words": 2,
+        "name": "Unknown Player",
+        "streak": 1,
+        "last_played": "2024-08-08",
+        "achievements": [
+            "first_win"
+        ],
+        "scores": [
+            32,
+            20
+        ]
+    },
+    "1033317941": {
+        "games_played": 1,
+        "games_won": 1,
+        "total_score": 30,
+        "guessed_letters": 5,
+        "solved_words": 1,
+        "name": "Unknown Player",
+        "streak": 1,
+        "last_played": "2024-08-09",
+        "achievements": [
+            "first_win"
+        ],
+        "scores": [
+            30
+        ]
+    },
+    "5569547466": {
+        "games_played": 2,
+        "games_won": 1,
+        "total_score": 21,
+        "guessed_letters": 20,
+        "solved_words": 1,
+        "name": "Unknown Player",
+        "streak": 1,
+        "last_played": "2024-08-09",
+        "achievements": [
+            "first_win"
+        ],
+        "scores": [
+            21,
+            0
+        ]
+    },
+    "1782524870": {
+        "games_played": 17,
+        "games_won": 12,
+        "total_score": 627,
+        "guessed_letters": 176,
+        "solved_words": 12,
+        "name": "\u0645\u0639\u0627\u0630",
+        "streak": 1,
+        "last_played": "2024-08-09",
+        "achievements": [
+            "perfect_game",
+            "first_win"
+        ],
+        "scores": [
+            120,
+            96,
+            90,
+            84,
+            63
+        ]
+    },
+    "5079373557": {
+        "games_played": 13,
+        "games_won": 11,
+        "total_score": -63,
+        "guessed_letters": 130,
+        "solved_words": 11,
+        "name": "Ziyad",
+        "streak": 1,
+        "last_played": "2024-08-09",
+        "achievements": [
+            "perfect_game",
+            "first_win"
+        ],
+        "scores": [
+            32,
+            30,
+            28,
+            18,
+            15
         ]
     }
 }

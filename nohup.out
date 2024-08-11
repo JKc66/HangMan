@@ -1,76 +1,3 @@
-Hangman bot is starting...
-Hangman bot has started!
-'total_score'
-Traceback (most recent call last):
-  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
-    await handler.callback(self.client, *args)
-  File "/home/ubuntu/HangMan/Hangman.py", line 1030, in leaderboard_callback
-    sorted_data = get_daily_challenge_leaderboard()
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ubuntu/HangMan/Hangman.py", line 137, in get_daily_challenge_leaderboard
-    leaderboard = [(user_id, data['total_score'], data['streak'])
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ubuntu/HangMan/Hangman.py", line 137, in <listcomp>
-    leaderboard = [(user_id, data['total_score'], data['streak'])
-                            ~~~~^^^^^^^^^^^^^^^
-KeyError: 'total_score'
-'total_score'
-Traceback (most recent call last):
-  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
-    await handler.callback(self.client, *args)
-  File "/home/ubuntu/HangMan/Hangman.py", line 1030, in leaderboard_callback
-    sorted_data = get_daily_challenge_leaderboard()
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ubuntu/HangMan/Hangman.py", line 137, in get_daily_challenge_leaderboard
-    leaderboard = [(user_id, data['total_score'], data['streak'])
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ubuntu/HangMan/Hangman.py", line 137, in <listcomp>
-    leaderboard = [(user_id, data['total_score'], data['streak'])
-                            ~~~~^^^^^^^^^^^^^^^
-KeyError: 'total_score'
-Hangman bot is starting...
-Hangman bot has started!
-'streak'
-Traceback (most recent call last):
-  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
-    await handler.callback(self.client, *args)
-  File "/home/ubuntu/HangMan/Hangman.py", line 688, in hint_callback
-    await end_game(client, callback_query.message, game_user_id, won=True)
-  File "/home/ubuntu/HangMan/Hangman.py", line 1184, in end_game
-    final_score = update_daily_challenge_score(user_id, game["score"])
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ubuntu/HangMan/Hangman.py", line 131, in update_daily_challenge_score
-    return daily_challenges[user_id]['score'], daily_challenges[user_id]['streak']
-                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
-KeyError: 'streak'
-Hangman bot is starting...
-Hangman bot has started!
-too many values to unpack (expected 2)
-Traceback (most recent call last):
-  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
-    await handler.callback(self.client, *args)
-  File "/home/ubuntu/HangMan/Hangman.py", line 1055, in leaderboard_callback
-    for rank, (uid, value) in enumerate(sorted_data, start=1):
-              ^^^^^^^^^^^^
-ValueError: too many values to unpack (expected 2)
-too many values to unpack (expected 2)
-Traceback (most recent call last):
-  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
-    await handler.callback(self.client, *args)
-  File "/home/ubuntu/HangMan/Hangman.py", line 1055, in leaderboard_callback
-    for rank, (uid, value) in enumerate(sorted_data, start=1):
-              ^^^^^^^^^^^^
-ValueError: too many values to unpack (expected 2)
-Hangman bot is starting...
-Hangman bot has started!
-Hangman bot is starting...
-Hangman bot has started!
-Hangman bot is starting...
-Hangman bot has started!
-Hangman bot is starting...
-Hangman bot has started!
-Hangman bot is starting...
-Hangman bot has started!
 Exception ignored in: <module 'threading' from '/home/ubuntu/miniforge3/envs/bots/lib/python3.11/threading.py'>
 Traceback (most recent call last):
   File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/threading.py", line 1590, in _shutdown
@@ -83,3 +10,244 @@ Traceback (most recent call last):
   File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/concurrent/futures/thread.py", line 167, in submit
     raise RuntimeError('cannot schedule new futures after shutdown')
 RuntimeError: cannot schedule new futures after shutdown
+[hangman_bot] Waiting for 10 seconds before continuing (required by "messages.EditMessage")
+Telegram says: [400 MESSAGE_NOT_MODIFIED] - The message was not modified because you tried to edit it using the same content (caused by "messages.EditMessage")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 1012, in set_emoji_callback
+    await callback_query.message.edit_text(
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/messages_and_media/message.py", line 3155, in edit_text
+    return await self._client.edit_message_text(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/messages/edit_message_text.py", line 81, in edit_message_text
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.MessageNotModified: Telegram says: [400 MESSAGE_NOT_MODIFIED] - The message was not modified because you tried to edit it using the same content (caused by "messages.EditMessage")
+[hangman_bot] Waiting for 10 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+Telegram says: [400 QUERY_ID_INVALID] - The callback query id is invalid (caused by "messages.SetBotCallbackAnswer")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 713, in hint_callback
+    await callback_query.answer(f"Hint: The word contains the letter '{hint}'")
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/bots_and_keyboards/callback_query.py", line 164, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/bots/answer_callback_query.py", line 76, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] - The callback query id is invalid (caused by "messages.SetBotCallbackAnswer")
+'5079373557'
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 690, in hint_callback
+    await end_game(client, callback_query.message, game_user_id, won=True)
+  File "/home/ubuntu/HangMan/Hangman.py", line 1248, in end_game
+    del games[user_id]
+        ~~~~~^^^^^^^^^
+KeyError: '5079373557'
+'5079373557'
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 638, in guess_callback
+    await end_game(client, callback_query.message, game_user_id, won=True)
+  File "/home/ubuntu/HangMan/Hangman.py", line 1248, in end_game
+    del games[user_id]
+        ~~~~~^^^^^^^^^
+KeyError: '5079373557'
+'5079373557'
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 638, in guess_callback
+    await end_game(client, callback_query.message, game_user_id, won=True)
+  File "/home/ubuntu/HangMan/Hangman.py", line 1248, in end_game
+    del games[user_id]
+        ~~~~~^^^^^^^^^
+KeyError: '5079373557'
+'5079373557'
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 638, in guess_callback
+    await end_game(client, callback_query.message, game_user_id, won=True)
+  File "/home/ubuntu/HangMan/Hangman.py", line 1248, in end_game
+    del games[user_id]
+        ~~~~~^^^^^^^^^
+KeyError: '5079373557'
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+Telegram says: [400 QUERY_ID_INVALID] - The callback query id is invalid (caused by "messages.SetBotCallbackAnswer")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 660, in guess_callback
+    await callback_query.answer()
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/bots_and_keyboards/callback_query.py", line 164, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/bots/answer_callback_query.py", line 76, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] - The callback query id is invalid (caused by "messages.SetBotCallbackAnswer")
+[hangman_bot] Waiting for 8 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 7 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 5 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+Telegram says: [400 MESSAGE_NOT_MODIFIED] - The message was not modified because you tried to edit it using the same content (caused by "messages.EditMessage")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 733, in category_callback
+    edited_message = await callback_query.message.edit_text(f"Choose difficulty for {category}:", reply_markup=keyboard)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/messages_and_media/message.py", line 3155, in edit_text
+    return await self._client.edit_message_text(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/messages/edit_message_text.py", line 81, in edit_message_text
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.MessageNotModified: Telegram says: [400 MESSAGE_NOT_MODIFIED] - The message was not modified because you tried to edit it using the same content (caused by "messages.EditMessage")
+Telegram says: [400 MESSAGE_NOT_MODIFIED] - The message was not modified because you tried to edit it using the same content (caused by "messages.EditMessage")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 733, in category_callback
+    edited_message = await callback_query.message.edit_text(f"Choose difficulty for {category}:", reply_markup=keyboard)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/messages_and_media/message.py", line 3155, in edit_text
+    return await self._client.edit_message_text(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/messages/edit_message_text.py", line 81, in edit_message_text
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.MessageNotModified: Telegram says: [400 MESSAGE_NOT_MODIFIED] - The message was not modified because you tried to edit it using the same content (caused by "messages.EditMessage")
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+Telegram says: [400 MESSAGE_NOT_MODIFIED] - The message was not modified because you tried to edit it using the same content (caused by "messages.EditMessage")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 749, in difficulty_callback
+    sent_message = await callback_query.message.edit_text(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/messages_and_media/message.py", line 3155, in edit_text
+    return await self._client.edit_message_text(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/messages/edit_message_text.py", line 81, in edit_message_text
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.MessageNotModified: Telegram says: [400 MESSAGE_NOT_MODIFIED] - The message was not modified because you tried to edit it using the same content (caused by "messages.EditMessage")
+[hangman_bot] Waiting for 4 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 4 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 7 seconds before continuing (required by "messages.EditMessage")
+Unable to connect due to network issues: Connection timed out
+Unable to connect due to network issues: Connection timed out
+Unable to connect due to network issues: Connection timed out

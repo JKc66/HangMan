@@ -1284,45 +1284,58 @@ async def play_again_callback(client, callback_query):
     
 @app.on_message(filters.command("ranking"))
 async def leaderboard_command(client, message):
+    global last_pressed_button
+    
     user_id = str(message.from_user.id)
     user_name = message.from_user.first_name
     
     if user_id in player_stats and player_stats[user_id]["name"] != user_name:
         update_player_name(user_id, user_name)
 
-    leaderboard_type = "wins"
-    title = "🥇 **Most Wins Leaderboard**"
+    last_pressed_button = "wins"  # Set the default selected button
+
+    def format_name(name):
+        if any('\u0600' <= char <= '\u06FF' for char in name):
+            return f"\u202E**{name}**\u202C"
+        return f"\u202A**{name}**\u202C"
+
+    def format_entry(rank, name, value, unit):
+        formatted_name = format_name(name)
+        return f"\u202A{rank_emoji(rank)} {formatted_name}: {value} {unit}\u202C"
+
+    title = "🏆 **Most Wins Leaderboard**"
     sorted_data = sorted(
         [(uid, stats["games_won"]) for uid, stats in player_stats.items() if "games_won" in stats],
         key=itemgetter(1),
         reverse=True
     )[:10]
-    format_entry = lambda rank, name, value: f"{rank_emoji(rank)} **{name}**: {value} wins"
+    entry_formatter = lambda rank, name, value: format_entry(rank, name, value, "wins")
 
     leaderboard_text = f"{title}\n\n"
-    for rank, (uid, value) in enumerate(sorted_data, start=1):
+    for rank, entry in enumerate(sorted_data, start=1):
+        uid, value = entry
         player_name = player_stats[uid].get("name", "Unknown Player")
-        leaderboard_text += format_entry(rank, player_name, value) + "\n"
+        entry_text = entry_formatter(rank, player_name, value)
 
-        if rank <= 3:
-            extra_info = get_player_extra_info(uid, leaderboard_type)
-            leaderboard_text += f"  {extra_info}\n"
-
-        leaderboard_text += "\n"
+        extra_info = get_player_extra_info(uid, "wins")
+        leaderboard_text += f"<blockquote>{entry_text}\n{extra_info}</blockquote>\n\n"
 
     if not sorted_data:
         leaderboard_text += "No data available yet. Start playing to climb the leaderboard!\n"
 
-    leaderboard_text += "\n💡 Tip: Keep playing to improve your rank!"
+    leaderboard_text += "\n" + random.choice(tips)
+
+    daily_button_text = "📅 Daily Challenge"
+    wins_button_text = "○ 🏆 Most Wins ○"  # Pre-selected button
+    scores_button_text = "🔥 Highest Scores"
 
     keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton("🏆 Daily Challenge", callback_data="leaderboard_daily")],
-        [InlineKeyboardButton("🥇 Most Wins", callback_data="leaderboard_wins")],
-        [InlineKeyboardButton("🌟 Highest Scores", callback_data="leaderboard_scores")]
+        [InlineKeyboardButton(daily_button_text, callback_data="leaderboard_daily")],
+        [InlineKeyboardButton(wins_button_text, callback_data="leaderboard_wins")],
+        [InlineKeyboardButton(scores_button_text, callback_data="leaderboard_scores")]
     ])
 
     await message.reply_text(leaderboard_text, reply_markup=keyboard)
-
 user_configs = load_user_configs()
 
 load_player_stats()
