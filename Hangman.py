@@ -111,9 +111,9 @@ def update_daily_challenge_score(user_id, score):
     else:
         user_data = daily_challenges[user_id]
         if 'total_score' not in user_data:
-            user_data['total_score'] = user_data['score']  # Initialize total_score with current score
+            user_data['total_score'] = user_data['score']  
         if 'streak' not in user_data:
-            user_data['streak'] = 1  # Initialize streak if it doesn't exist
+            user_data['streak'] = 1  
         
         if user_data['last_played'] == today:
             if score > user_data['score']:
@@ -1292,7 +1292,7 @@ async def leaderboard_command(client, message):
     if user_id in player_stats and player_stats[user_id]["name"] != user_name:
         update_player_name(user_id, user_name)
 
-    last_pressed_button = "wins"  # Set the default selected button
+    last_pressed_button = "wins"  
 
     def format_name(name):
         if any('\u0600' <= char <= '\u06FF' for char in name):
