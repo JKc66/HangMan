@@ -251,3 +251,272 @@ hydrogram.errors.exceptions.bad_request_400.MessageNotModified: Telegram says: [
 Unable to connect due to network issues: Connection timed out
 Unable to connect due to network issues: Connection timed out
 Unable to connect due to network issues: Connection timed out
+Hangman bot is starting...
+Hangman bot has started!
+Deleted 3 inactive game messages for user 920584661
+Deleted 1 inactive game messages for user 5079373557
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+Hangman bot is starting...
+Hangman bot has started!
+Hangman bot is starting...
+Hangman bot has started!
+Hangman bot is starting...
+Hangman bot has started!
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+Telegram says: [400 MESSAGE_NOT_MODIFIED] - The message was not modified because you tried to edit it using the same content (caused by "messages.EditMessage")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 733, in category_callback
+    edited_message = await callback_query.message.edit_text(f"Choose difficulty for {category}:", reply_markup=keyboard)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/messages_and_media/message.py", line 3155, in edit_text
+    return await self._client.edit_message_text(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/messages/edit_message_text.py", line 81, in edit_message_text
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.MessageNotModified: Telegram says: [400 MESSAGE_NOT_MODIFIED] - The message was not modified because you tried to edit it using the same content (caused by "messages.EditMessage")
+[hangman_bot] Waiting for 3 seconds before continuing (required by "messages.EditMessage")
+Telegram says: [400 TOPIC_CLOSED] - The topic was closed (caused by "messages.SendMessage")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/message_handler.py", line 170, in resolve_future_or_callback
+    await self.original_callback(client, message, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 551, in play_command
+    sent_message = await message.reply_text("🎮 **Hangman Game!** 🎉\n\n"
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/messages_and_media/message.py", line 1333, in reply_text
+    return await self._client.send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/messages/send_message.py", line 137, in send_message
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.TopicClosed: Telegram says: [400 TOPIC_CLOSED] - The topic was closed (caused by "messages.SendMessage")
+Telegram says: [400 TOPIC_CLOSED] - The topic was closed (caused by "messages.SendMessage")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/message_handler.py", line 170, in resolve_future_or_callback
+    await self.original_callback(client, message, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 551, in play_command
+    sent_message = await message.reply_text("🎮 **Hangman Game!** 🎉\n\n"
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/messages_and_media/message.py", line 1333, in reply_text
+    return await self._client.send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/messages/send_message.py", line 137, in send_message
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.TopicClosed: Telegram says: [400 TOPIC_CLOSED] - The topic was closed (caused by "messages.SendMessage")
+Telegram says: [400 TOPIC_CLOSED] - The topic was closed (caused by "messages.SendMessage")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/message_handler.py", line 170, in resolve_future_or_callback
+    await self.original_callback(client, message, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 551, in play_command
+    sent_message = await message.reply_text("🎮 **Hangman Game!** 🎉\n\n"
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/messages_and_media/message.py", line 1333, in reply_text
+    return await self._client.send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/messages/send_message.py", line 137, in send_message
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.TopicClosed: Telegram says: [400 TOPIC_CLOSED] - The topic was closed (caused by "messages.SendMessage")
+Telegram says: [400 TOPIC_CLOSED] - The topic was closed (caused by "messages.SendMessage")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/message_handler.py", line 170, in resolve_future_or_callback
+    await self.original_callback(client, message, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 551, in play_command
+    sent_message = await message.reply_text("🎮 **Hangman Game!** 🎉\n\n"
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/messages_and_media/message.py", line 1333, in reply_text
+    return await self._client.send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/messages/send_message.py", line 137, in send_message
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.TopicClosed: Telegram says: [400 TOPIC_CLOSED] - The topic was closed (caused by "messages.SendMessage")
+Telegram says: [400 TOPIC_CLOSED] - The topic was closed (caused by "messages.SendMessage")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/message_handler.py", line 170, in resolve_future_or_callback
+    await self.original_callback(client, message, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 485, in start_command
+    await message.reply_text(welcome_text)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/messages_and_media/message.py", line 1333, in reply_text
+    return await self._client.send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/messages/send_message.py", line 137, in send_message
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.TopicClosed: Telegram says: [400 TOPIC_CLOSED] - The topic was closed (caused by "messages.SendMessage")
+Unable to connect due to network issues: Connection timed out
+Unable to connect due to network issues: Connection timed out
+Unable to connect due to network issues: Connection timed out
+Connection failed! Trying again...
+Unable to connect due to network issues: Connection timed out
+Unable to connect due to network issues: Connection timed out
+Unable to connect due to network issues: Connection timed out
+Telegram says: [400 QUERY_ID_INVALID] - The callback query id is invalid (caused by "messages.SetBotCallbackAnswer")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 660, in guess_callback
+    await callback_query.answer()
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/bots_and_keyboards/callback_query.py", line 164, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/bots/answer_callback_query.py", line 76, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] - The callback query id is invalid (caused by "messages.SetBotCallbackAnswer")
+Telegram says: [400 QUERY_ID_INVALID] - The callback query id is invalid (caused by "messages.SetBotCallbackAnswer")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 660, in guess_callback
+    await callback_query.answer()
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/bots_and_keyboards/callback_query.py", line 164, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/bots/answer_callback_query.py", line 76, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] - The callback query id is invalid (caused by "messages.SetBotCallbackAnswer")
+Telegram says: [400 QUERY_ID_INVALID] - The callback query id is invalid (caused by "messages.SetBotCallbackAnswer")
+Traceback (most recent call last):
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 236, in _handle_update
+    await self._execute_callback(handler, parsed_update)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/dispatcher.py", line 264, in _execute_callback
+    await handler.callback(self.client, *args)
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/handlers/callback_query_handler.py", line 223, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/home/ubuntu/HangMan/Hangman.py", line 660, in guess_callback
+    await callback_query.answer()
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/types/bots_and_keyboards/callback_query.py", line 164, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/bots/answer_callback_query.py", line 76, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/methods/advanced/invoke.py", line 85, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 424, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/session/session.py", line 387, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/ubuntu/miniforge3/envs/bots/lib/python3.11/site-packages/hydrogram/errors/rpc_error.py", line 98, in raise_it
+    raise getattr(import_module("hydrogram.errors"), exceptions[error_code][error_id])(
+hydrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] - The callback query id is invalid (caused by "messages.SetBotCallbackAnswer")
