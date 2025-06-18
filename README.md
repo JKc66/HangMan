@@ -118,13 +118,5 @@ The bot maintains several JSON files for persistent storage:
 - 🤡 😕 😡
 - And more!
 
-## 🤝 Contributing
-
-Feel free to submit issues and enhancement requests!
-
-## 📝 License
-
-This project is open source and available under the MIT License.
-
 ---
 Made with ❤️ for Telegram gamers 
