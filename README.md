@@ -72,11 +72,9 @@ A feature-rich, interactive Hangman game bot for Telegram with customizable emoj
 
 1. Python
 2. Required packages:
-   ```
-   hydrogram
-   asyncio
-   ```
-
+  ```
+   pip install -r requirements.txt
+  ```
 3. Environment variables:
    ```
    API_ID - Telegram API ID
