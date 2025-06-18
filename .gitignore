@@ -1,5 +1,12 @@
-HangMan/hangman_bot.session-wal
-HangMan/hangman_bot.session
-HangMan/hangman_bot.session-shm
+hangman_bot.session-wal
+hangman_bot.session
+hangman_bot.session-shm
+
+player_stats.json
+users_config.json
+daily_challenges.json
+
+config.py
 
 nohup.out
+*.pyc
